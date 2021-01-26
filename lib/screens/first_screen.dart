@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterapp/screens/home_screen.dart';
 
 class FirstScreen extends StatefulWidget {
   @override
@@ -11,7 +12,6 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-
         body: SafeArea(
           child: Stack(
             children: [
@@ -37,7 +37,7 @@ class _FirstScreenState extends State<FirstScreen> {
       child: Text(
         'Truyện Cổ Tích Audio',
         style: TextStyle(
-          color: Color.fromRGBO(15,15,15,0.86),
+          color: Color.fromRGBO(15, 15, 15, 0.86),
           fontSize: 24,
           fontWeight: FontWeight.bold,
           fontFamily: 'Pacifico',
@@ -72,7 +72,7 @@ class _FirstScreenState extends State<FirstScreen> {
           children: <Widget>[
             RawMaterialButton(
               padding: EdgeInsets.only(right: 80, left: 80),
-              fillColor: Color.fromRGBO(30,86,42,1),
+              fillColor: Color.fromRGBO(30, 86, 42, 1),
               child: Padding(
                 padding: EdgeInsets.all(12.0),
                 child: Row(
@@ -82,13 +82,19 @@ class _FirstScreenState extends State<FirstScreen> {
                     Text(
                       "Facebook",
                       maxLines: 1,
-                      style: TextStyle(color: Colors.white,fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
-              shape: StadiumBorder(
-              ),
+              shape: StadiumBorder(),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
             ),
             SizedBox(height: 5),
             RawMaterialButton(
@@ -102,18 +108,21 @@ class _FirstScreenState extends State<FirstScreen> {
                     Text(
                       "Google",
                       maxLines: 1,
-                      style: TextStyle(color: Color.fromRGBO(30,86,42,1), fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Color.fromRGBO(30, 86, 42, 1),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
               ),
-
               shape: StadiumBorder(
                   side: BorderSide(
-                      color: Color.fromRGBO(30,86,42,1),
-                      width: 1
-                  )
-              ),
+                      color: Color.fromRGBO(30, 86, 42, 1), width: 1)),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
             ),
           ],
         ));
