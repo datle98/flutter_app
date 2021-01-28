@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutterapp/custom_views/custom_banner_slider.dart';
 import 'package:flutterapp/items/item_category.dart';
 import 'package:flutterapp/items/item_listview_home.dart';
 
@@ -30,12 +31,16 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SafeArea(
             child: Column(
               children: [
-                appBar(),
+                // appBar(),
+                Expanded(child: CustomBannerSlider(),)
 
-                SingleChildScrollView(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  child: buildListWithData(context),
-                )
+
+                // Expanded(
+                //     child: SingleChildScrollView(
+                //       scrollDirection: Axis.vertical,
+                //       padding: EdgeInsets.only(left: 10, right: 10),
+                //       child: buildListWithData(context),
+                // ))
               ],
             )
         )
@@ -48,16 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         children: [
           IconButton(
-            iconSize: 24,
             icon: Image.asset('res/images/menu.png'),
-            //   icon: Icon(Icons.menu_sharp),
+            iconSize: 40,
             onPressed: _openLeftMenu()
           ),
           Expanded(child: searchAppBar(),),
           Image(
             image: AssetImage('res/images/ic_vip_member.png'),
-            width: 30,
-            height: 30,
+            width: 40,
+            height: 40,
           ),
         ],
       ),
@@ -66,8 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget searchAppBar(){
     return Container(
-        padding: EdgeInsets.all(10.0),
-        child: TextField(
+        padding: EdgeInsets.only(left: 10, right: 10),
+        child: TextFormField(
             autocorrect: true,
             decoration: InputDecoration(
               hintText: 'Enter Your Email Here...',
@@ -75,13 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
               hintStyle: TextStyle(color: Colors.grey),
               filled: true,
               fillColor: Colors.white70,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                borderSide: BorderSide(color: Colors.green, width: 2),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                borderSide: BorderSide(color: Colors.green, width: 2),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                borderSide: BorderSide(color: Colors.green, width: 1),
               ),
             )));
   }
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ItemList item = list[index] as ItemList;
             return ItemList(item.pos, item.view, item.name, item.vip);
           } else
-            return null;
+            return Container();
         },
         itemCount: list.length,
       ),
