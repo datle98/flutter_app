@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutterapp/items/item_category.dart';
@@ -8,11 +9,12 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-List<Object> list = [];
-List<Object> list3 = [];
+
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isViewMore = false;
+  List<Object> list = [];
+  List<Object> list3 = [];
 
   @override
   void initState() {
@@ -23,15 +25,65 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         body: SafeArea(
-            child: SingleChildScrollView(
-              child: buildListWithData(context),
+            child: Column(
+              children: [
+                appBar(),
+
+                SingleChildScrollView(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: buildListWithData(context),
+                )
+              ],
             )
         )
     );
+  }
+
+  Widget appBar(){
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Row(
+        children: [
+          IconButton(
+            iconSize: 24,
+            icon: Image.asset('res/images/menu.png'),
+            //   icon: Icon(Icons.menu_sharp),
+            onPressed: _openLeftMenu()
+          ),
+          Expanded(child: searchAppBar(),),
+          Image(
+            image: AssetImage('res/images/ic_vip_member.png'),
+            width: 30,
+            height: 30,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget searchAppBar(){
+    return Container(
+        padding: EdgeInsets.all(10.0),
+        child: TextField(
+            autocorrect: true,
+            decoration: InputDecoration(
+              hintText: 'Enter Your Email Here...',
+              prefixIcon: Icon(Icons.search),
+              hintStyle: TextStyle(color: Colors.grey),
+              filled: true,
+              fillColor: Colors.white70,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                borderSide: BorderSide(color: Colors.green, width: 2),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderSide: BorderSide(color: Colors.green, width: 2),
+              ),
+            )));
   }
 
   Widget buildList(BuildContext context) {
@@ -83,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Text(
                 isViewMore ? 'Thu gọn' : 'Xem thêm',
                 style: TextStyle(
-                  color: Color.fromRGBO(30, 86, 42, 1),
+                  color: Color(0xFF42A5F5),
                   fontSize: 14,
                 ),
               )),
@@ -141,4 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
   insertDataList(List<Object> list) {
     print('$list');
   }
+
+  _openLeftMenu() {}
 }
