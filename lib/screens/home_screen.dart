@@ -8,16 +8,21 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+List<Object> list = [];
+List<Object> list3 = [];
+
 class _HomeScreenState extends State<HomeScreen> {
   bool isViewMore = false;
 
-  List<Object> list = [];
-
+  @override
+  void initState() {
+    super.initState();
+    createList6Item();
+    createList3Item();
+    insertDataList(list);
+  }
   @override
   Widget build(BuildContext context) {
-
-    createList();
-    insertDataList(list);
 
     return Scaffold(
         resizeToAvoidBottomPadding: false,
@@ -62,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
   Widget buildListWithData(BuildContext context) {
     return Container(
       child: ListView.builder(
@@ -83,13 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
             );
           } else if (list[index] is ItemList) {
-
             ItemList item = list[index] as ItemList;
-            return ItemList(
-                item.pos,
-                item.view,
-                item.name,
-                item.vip);
+            return ItemList(item.pos, item.view, item.name, item.vip);
           } else
             return null;
         },
@@ -100,23 +101,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
   clickViewMore(bool isViewMore) {
     setState(() {
-      // this.isViewMore = !isViewMore;
-      print('Click view more');
+      this.isViewMore = !isViewMore;
+
+      if (isViewMore) {
+        list.removeRange(4, 7);
+      }else{
+        list.insertAll(4, list3);
+      }
+
+      print('Click view more $list');
     });
   }
 
-  createList() {
+  createList6Item() {
     for (var i = 0; i < 6; i++) {
-      list.add(ItemList(i + 1, 1000 + i,
-          'Truyện Ma - Nguyễn Ngọc Ngạn Chapter ahihihihihihihi $i', i % 2 == 0));
+      list.add(ItemList(
+          i + 1,
+          1000 + i,
+          'Truyện Ma - Nguyễn Ngọc Ngạn Chapter ahihihihihihihi $i',
+          i % 2 == 0));
     }
-  }
 
-  insertDataList(List<Object> list) {
     list.insert(0, ItemCategory('Truyện nổi bật'));
     list.insert(4, 'Xem thêm');
     list.insert(5, ItemCategory('Truyện mới nhất'));
     list.insert(9, "Xem thêm");
   }
 
+  createList3Item() {
+    for (var i = 0; i < 3; i++) {
+      list3.add(ItemList(
+          i + 1,
+          1000 + i,
+          'Truyện Ma Added $i',
+          i % 2 == 0));
+    }
+  }
+
+  insertDataList(List<Object> list) {
+    print('$list');
+  }
 }
