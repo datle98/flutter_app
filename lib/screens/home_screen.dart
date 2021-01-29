@@ -4,13 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutterapp/custom_views/custom_banner_slider.dart';
 import 'package:flutterapp/items/item_category.dart';
 import 'package:flutterapp/items/item_listview_home.dart';
+import 'package:flutterapp/screens/purchase_vip.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
-
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isViewMore = false;
@@ -24,130 +23,139 @@ class _HomeScreenState extends State<HomeScreen> {
     createList3Item();
     insertDataList(list);
   }
+
+  var scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: SafeArea(
-            child: Column(
-              children: [
-                // appBar(),
-                Expanded(child: CustomBannerSlider(),)
-
-
-                // Expanded(
-                //     child: SingleChildScrollView(
-                //       scrollDirection: Axis.vertical,
-                //       padding: EdgeInsets.only(left: 10, right: 10),
-                //       child: buildListWithData(context),
-                // ))
-              ],
+    return SafeArea(
+            child: Scaffold(
+              // appBar: AppBar(
+              //   backgroundColor: Colors.white,
+              //   leading: Builder(
+              //     builder: (context) =>
+              //         GestureDetector(
+              //           onTap: () => Scaffold.of(context).openDrawer(),
+              //           child: Padding(
+              //             padding: EdgeInsets.all(16),
+              //             child: Image(
+              //               image: AssetImage('res/images/menu.png'),
+              //               width: 24,
+              //               height: 24,
+              //             ),
+              //           ),
+              //         ),
+              //   ),
+              //   flexibleSpace: buildAppBar(context),
+              // ),
+              drawer: Drawer(
+                child: Container(),
+              ),
+              body: Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  children: [
+                    buildAppBar(context),
+                    Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          controller: ScrollController(),
+                          child: buildListWithData(context),
+                        )
+                    )
+                  ],
+                ),
+              ),
             )
-        )
-    );
+        );
   }
 
-  Widget appBar(){
+  Widget buildAppBar(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.only(top: 10, bottom: 10),
       child: Row(
         children: [
-          IconButton(
-            icon: Image.asset('res/images/menu.png'),
-            iconSize: 40,
-            onPressed: _openLeftMenu()
+          Builder(
+            builder: (context) =>
+                GestureDetector(
+                  onTap: () => Scaffold.of(context).openDrawer(),
+                  child: Image(
+                    image: AssetImage('res/images/menu.png'),
+                    width: 30,
+                    height: 30,
+                  ),
+                ),
           ),
-          Expanded(child: searchAppBar(),),
-          Image(
-            image: AssetImage('res/images/ic_vip_member.png'),
-            width: 40,
-            height: 40,
+          Expanded(
+            child: searchAppBar(),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) =>  PurchaseVip(),)),
+            child: Image(
+              image: AssetImage('res/images/ic_vip_member.png'),
+              width: 30,
+              height: 30,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget searchAppBar(){
+  Widget searchAppBar() {
     return Container(
-        padding: EdgeInsets.only(left: 10, right: 10),
-        child: TextFormField(
-            autocorrect: true,
-            decoration: InputDecoration(
-              hintText: 'Enter Your Email Here...',
-              prefixIcon: Icon(Icons.search),
-              hintStyle: TextStyle(color: Colors.grey),
-              filled: true,
-              fillColor: Colors.white70,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                borderSide: BorderSide(color: Colors.green, width: 1),
+      padding: EdgeInsets.only(left: 5, right: 5),
+      child: RawMaterialButton(
+        fillColor: Colors.white,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: const <Widget>[
+            Icon(
+              Icons.search,
+              size: 18,
+              color: Color.fromRGBO(0, 0, 0, 1),
+            ),
+            Text(
+              "Tìm kiếm truyện",
+              maxLines: 1,
+              style: TextStyle(
+                color: Color.fromRGBO(0, 0, 0, 1),
+                fontSize: 15,
               ),
-            )));
-  }
-
-  Widget buildList(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          // if (index % 5 == 0) {
-          if (index == 0) {
-            return ItemCategory('Truyện nổi bật');
-          } else if (index == 4 || index == 9) {
-            return TextButton(
-              onPressed: () => clickViewMore(isViewMore),
-              child: Visibility(
-                  child: Text(
-                isViewMore ? 'Thu gọn' : 'Xem thêm',
-                style: TextStyle(
-                  color: Color.fromRGBO(30, 86, 42, 1),
-                  fontSize: 14,
-                ),
-              )),
-            );
-          } else if (index == 5) {
-            return ItemCategory('Truyện mới nhất');
-          } else
-            return ItemList(
-                index,
-                1000 + index,
-                'Truyện Kiều Truyện Kiều Truyện Kiều Truyện Kiều $index',
-                index % 2 == 0);
-        },
-        // itemCount: isViewMore ? 9 : 5,
-        itemCount: list.length,
+            ),
+          ],
+        ),
+        shape: StadiumBorder(
+            side: BorderSide(color: Color.fromRGBO(30, 86, 42, 1), width: 1)),
       ),
+      // TextFormField(
+      //   // textAlign: TextAlign.center,
+      //   textAlignVertical: TextAlignVertical.center,
+      //   decoration: InputDecoration(
+      //     isDense: true,
+      //     border: OutlineInputBorder(
+      //       borderRadius: BorderRadius.all(Radius.circular(40.0)),
+      //       borderSide: BorderSide(color: Colors.green, width: 1),
+      //     ),
+      //     prefixIcon: Icon(Icons.search),
+      //     isCollapsed: false,
+      //     hintStyle: TextStyle(color: Colors.grey),
+      //     hintText: 'Tìm kiếm truyện',
+      //
+      //   ),
+      // )
     );
   }
 
   Widget buildListWithData(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          if (list[index] is ItemCategory) {
-            return ItemCategory((list[index] as ItemCategory).category);
-          } else if (list[index] is String) {
-            return TextButton(
-              onPressed: () => clickViewMore(isViewMore),
-              child: Visibility(
-                  child: Text(
-                isViewMore ? 'Thu gọn' : 'Xem thêm',
-                style: TextStyle(
-                  color: Color(0xFF42A5F5),
-                  fontSize: 14,
-                ),
-              )),
-            );
-          } else if (list[index] is ItemList) {
-            ItemList item = list[index] as ItemList;
-            return ItemList(item.pos, item.view, item.name, item.vip);
-          } else
-            return Container();
-        },
-        itemCount: list.length,
-      ),
+    return ListView.builder(
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      controller: ScrollController(),
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => checkType(index),
+      itemCount: list.length,
     );
   }
 
@@ -156,9 +164,9 @@ class _HomeScreenState extends State<HomeScreen> {
       this.isViewMore = !isViewMore;
 
       if (isViewMore) {
-        list.removeRange(4, 7);
-      }else{
-        list.insertAll(4, list3);
+        list.removeRange(5, 8);
+      } else {
+        list.insertAll(5, list3);
       }
 
       print('Click view more $list');
@@ -174,19 +182,16 @@ class _HomeScreenState extends State<HomeScreen> {
           i % 2 == 0));
     }
 
-    list.insert(0, ItemCategory('Truyện nổi bật'));
-    list.insert(4, 'Xem thêm');
-    list.insert(5, ItemCategory('Truyện mới nhất'));
-    list.insert(9, "Xem thêm");
+    list.insert(0, 1);
+    list.insert(1, ItemCategory('Truyện nổi bật'));
+    list.insert(5, 'Xem thêm');
+    list.insert(6, ItemCategory('Truyện mới nhất'));
+    list.insert(10, "Xem thêm");
   }
 
   createList3Item() {
     for (var i = 0; i < 3; i++) {
-      list3.add(ItemList(
-          i + 1,
-          1000 + i,
-          'Truyện Ma Added $i',
-          i % 2 == 0));
+      list3.add(ItemList(i + 1, 1000 + i, 'Truyện Ma Added $i', i % 2 == 0));
     }
   }
 
@@ -195,4 +200,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _openLeftMenu() {}
+
+  Widget checkType(int index) {
+    if (list[index] is int) {
+      return CustomBannerSlider();
+    } else if (list[index] is ItemCategory) {
+      return ItemCategory((list[index] as ItemCategory).category);
+    } else if (list[index] is String) {
+      return TextButton(
+        onPressed: () => clickViewMore(isViewMore),
+        child: Visibility(
+            child: Text(
+          isViewMore ? 'Thu gọn' : 'Xem thêm',
+          style: TextStyle(
+            color: Color(0xFF42A5F5),
+            fontSize: 14,
+          ),
+        )),
+      );
+    } else if (list[index] is ItemList) {
+      ItemList item = list[index] as ItemList;
+      return ItemList(item.pos, item.view, item.name, item.vip);
+    } else
+      return Container();
+  }
 }

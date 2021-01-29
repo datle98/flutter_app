@@ -8,7 +8,7 @@ class ItemCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16, bottom: 4, top: 10),
+      padding: EdgeInsets.only(bottom: 4, top: 10),
       child: Text(
         '$category',
         style: TextStyle(

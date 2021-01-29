@@ -15,7 +15,6 @@ class ItemList extends StatelessWidget {
 
   Widget itemListView() {
     return Container(
-      padding: EdgeInsets.only(left: 12, right: 22),
       child: Column(
         children: [
           SizedBox(
@@ -104,6 +103,7 @@ class ItemList extends StatelessWidget {
 
   Widget rankingPosition() {
     return Container(
+      margin: EdgeInsets.only(left: 4),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(
